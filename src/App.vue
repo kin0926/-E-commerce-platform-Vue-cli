@@ -1,28 +1,34 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- 组件三件套3:使用组件 -->
+    <HeaderVue></HeaderVue>
+    <router-view></router-view>
+    <FooterVue></FooterVue>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// 组件三件套1：引入组件
+import HeaderVue from './components/Header/Header.vue';
+import FooterVue from './components/Footer/Footer.vue';
 
 export default {
   name: 'App',
+  // 组件三件套2：注册组件
   components: {
-    HelloWorld
+    HeaderVue,
+    FooterVue
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+*{
+  margin: 0;
+  padding: 0;
+}
+/*去掉列表前面的小点*/
+li {
+    list-style: none;
 }
 </style>

@@ -46,8 +46,8 @@
               <ul>
                 <li>BUY-ME欢迎您！</li>
                 <li>
-                  <a href="sign-in.html">请登录</a>
-                  <a href="register.html" class="style-red">免费注册</a>
+                  <router-link to="/login">请登录</router-link>
+                  <router-link to="/register" class="style-red">免费注册</router-link>
                 </li>
               </ul>
             </div>
@@ -101,6 +101,37 @@
           </div>
         </div>
         <!-- 顶部快捷导航end -->
+        <!-- header制作 -->
+    <div class="header w">
+        <!-- logo -->
+        <div class="logo">
+            <h1>
+                <router-link to="/home"><img src="./img/logo.jpg" title="这是一个logo" alt="" width="150px" height="95px"></router-link>
+            </h1>
+        </div>
+        <!-- search -->
+        <div class="search">
+            <input type="text" class="text" placeholder="请搜索内容..." v-model="keyword">
+            <button class="btn" @click="goSearch">搜一搜</button>
+        </div>
+        <!-- hotwrods -->
+        <div class="hotwrods">
+            <a href="#" class="style-red">优惠购首发</a>
+            <a href="#">亿元优惠</a>
+            <a href="#">9.9元团购</a>
+            <a href="#">美满99减30</a>
+            <a href="#">办公用品</a>
+            <a href="#">电脑</a>
+            <a href="#">通信</a>
+        </div>
+        <a href="shopping.html">
+        <div class="shopcar">
+            <i class="car"> </i>我的购物车 <i class="arrow">  </i>
+            <i class="count">80</i>
+        </div>
+        </a>
+    </div>
+    <!-- header 结束 -->
   </div>
 </template>
 
@@ -108,7 +139,23 @@
 export default {
   name: "Header",
   data() {
-    return {};
+    return {
+      keyword:''
+    };
+  },
+  methods: {
+    // 路由传递参数
+    goSearch(){
+      // .toUpperCase()是大写的意思
+      // this.$router.push('/search/'+this.keyword+"?id="+this.keyword.toUpperCase())
+    
+    // 常用：对象传参
+    this.$router.push({
+      name:'xiangqing',
+      params:{keyword:this.keyword},
+      query:{id:this.keyword.toUpperCase()}
+    })
+    }
   },
 };
 </script>
@@ -193,5 +240,87 @@ export default {
 .nava ul li a:hover {
   background-color: #FFF5DA;
 }
-
+/*header区域*/
+.header {
+	position: relative;
+	height: 105px;
+}
+.logo {
+	position: absolute;
+	top: 25px;
+	left: 0;
+	width: 175px;
+	height: 56px;
+}
+.logo img{
+  border-radius: 15px 50px
+}
+/* .logo a {
+	display: block;
+	width: 175px;
+	height: 56px;
+	background: url(./img/logo.jpg) no-repeat;
+	font-size: 0; 
+}*/
+.search {
+	position: absolute;
+	top: 25px;
+	left: 348px;
+}
+.text {
+	float: left;
+	width: 445px;
+	height: 32px;
+	border: 2px solid #ea5b17;
+	padding-left: 10px;
+}
+.btn {
+	float: left;
+	width: 82px;
+	height: 36px;
+	background-color: #ea5b17;
+	border: 0;
+	font-size: 16px;
+	color: #fff;
+}
+.hotwrods {
+	position: absolute;
+	top: 65px;
+	left: 348px;
+}
+.hotwrods a {
+	margin: 0 10px;
+}
+.shopcar {
+	position: absolute;
+	top:25px;
+	right: 64px;
+	width: 138px;
+	height: 34px;
+	border: 1px solid #dfdfdf;
+	background-color: #f7f7f7;
+	line-height: 34px;
+	text-align: center;
+}
+.car {
+	font-family: 'icomoon';
+	color: #da5555;
+}
+.arrow {
+	font-family: 'icomoon';
+	margin-left: 5px;
+}
+.count {
+	position: absolute;
+	top: -5px;
+	/*应该是左侧对齐 文字才能往右走显示*/
+	left: 100px;
+	background-color: #e60012;
+	height: 14px;
+	padding: 0 3px;
+	line-height: 14px;
+	color: #fff;
+	/*border-radius: 左上角 右上角  右下角  左下角;*/
+	border-radius: 7px 7px 7px 0;
+}
 </style>

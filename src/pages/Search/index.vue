@@ -1,6 +1,7 @@
 <template>
   <div>
-    search
+    <h1>这是params参数{{$route.params.keyword}}</h1>
+    <h1>这是query参数{{$route.query.id}}</h1>
   </div>
 </template>
 

@@ -9,30 +9,34 @@ Vue.use(VueRouter)
 import Home from '@/pages/Home'
 import Search from '@/pages/Search'
 import Login from '@/pages/Login'
-import Refister from '@/pages/Refister'
+import Register from '@/pages/Register'
 
 //配置路由
 export default new VueRouter({
     //配置路由
     routes: [{
-            name: 'home',
+            name: 'shouye',
             path: '/home',
-            component: Home
+            component: Home,
+            meta: { show: true }
         },
         {
-            name: 'search',
-            path: '/search',
-            component: Search
+            name: 'xiangqing',
+            path: '/search/:keyword',
+            component: Search,
+            meta: { show: true }
         },
         {
-            name: 'login',
+            name: 'denglu',
             path: '/login',
-            component: Login
+            component: Login,
+            meta: { show: false }
         },
         {
-            name: 'refister',
-            path: '/refister',
-            component: Refister
+            name: 'zhuce',
+            path: '/register',
+            component: Register,
+            meta: { show: false }
         },
         //重定向
         {

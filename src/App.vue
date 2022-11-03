@@ -2,8 +2,10 @@
   <div id="app">
     <!-- 组件三件套3:使用组件 -->
     <HeaderVue></HeaderVue>
+    <br><br>
     <router-view></router-view>
-    <FooterVue></FooterVue>
+    <br><br>
+    <FooterVue v-show="$route.meta.show"></FooterVue>
   </div>
 </template>
 

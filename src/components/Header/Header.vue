@@ -37,99 +37,113 @@
       </el-header>
     </el-container>-->
 
-        <!-- 返回顶部 锚点坐标 -->
+    <!-- 返回顶部 锚点坐标 -->
 
-        <!-- 顶部快捷导航start -->
-        <div class="shortcut">
-          <div class="w">
-            <div class="fl">
-              <ul>
-                <li>BUY-ME欢迎您！</li>
-                <li>
-                  <router-link to="/login">请登录</router-link>
-                  <router-link to="/register" class="style-red">免费注册</router-link>
-                </li>
-              </ul>
-            </div>
-            <div class="fr">
-              <ul class="nava">
-                <li><a href="#">我的订单</a></li>
-                <li>
-                  <a href="#">我的品优购 ⇩</a>
-                  <ul style="display: none;">
-                    <li>
-                      <a href="">私信</a>
-                    </li>
-                    <li>
-                      <a href="">评论</a>
-                    </li>
-                    <li>
-                      <a href="">@我</a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a href="#">客户服务 ⇩</a>
-                  <ul style="display: none;">
-                    <li>
-                      <a href="">反馈</a>
-                    </li>
-                    <li>
-                      <a href="">投诉</a>
-                    </li>
-                    <li>
-                      <a href="">加入我们</a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a href="#">网站导航 ⇩</a>
-                  <ul style="display: none;">
-                    <li>
-                      <a href="">家用电器</a>
-                    </li>
-                    <li>
-                      <a href="">电子设备</a>
-                    </li>
-                    <li>
-                      <a href="">精品家具</a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </div>
+    <!-- 顶部快捷导航start -->
+    <div class="shortcut">
+      <div class="w">
+        <div class="fl">
+          <ul>
+            <li>BUY-ME欢迎您！</li>
+            <li>
+              <router-link to="/login">请登录</router-link>
+              <router-link to="/register" class="style-red"
+                >免费注册</router-link
+              >
+            </li>
+          </ul>
         </div>
-        <!-- 顶部快捷导航end -->
-        <!-- header制作 -->
+        <div class="fr">
+          <ul class="nava">
+            <li><a href="#">我的订单</a></li>
+            <li>
+              <a href="#">我的品优购 ⇩</a>
+              <ul style="display: none">
+                <li>
+                  <a href="">私信</a>
+                </li>
+                <li>
+                  <a href="">评论</a>
+                </li>
+                <li>
+                  <a href="">@我</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">客户服务 ⇩</a>
+              <ul style="display: none">
+                <li>
+                  <a href="">反馈</a>
+                </li>
+                <li>
+                  <a href="">投诉</a>
+                </li>
+                <li>
+                  <a href="">加入我们</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">网站导航 ⇩</a>
+              <ul style="display: none">
+                <li>
+                  <a href="">家用电器</a>
+                </li>
+                <li>
+                  <a href="">电子设备</a>
+                </li>
+                <li>
+                  <a href="">精品家具</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- 顶部快捷导航end -->
+    <!-- header制作 -->
     <div class="header w">
-        <!-- logo -->
-        <div class="logo">
-            <h1>
-                <router-link to="/home"><img src="./img/logo.jpg" title="这是一个logo" alt="" width="150px" height="95px"></router-link>
-            </h1>
-        </div>
-        <!-- search -->
-        <div class="search">
-            <input type="text" class="text" placeholder="请搜索内容..." v-model="keyword">
-            <button class="btn" @click="goSearch">搜一搜</button>
-        </div>
-        <!-- hotwrods -->
-        <div class="hotwrods">
-            <a href="#" class="style-red">优惠购首发</a>
-            <a href="#">亿元优惠</a>
-            <a href="#">9.9元团购</a>
-            <a href="#">美满99减30</a>
-            <a href="#">办公用品</a>
-            <a href="#">电脑</a>
-            <a href="#">通信</a>
-        </div>
-        <a href="shopping.html">
+      <!-- logo -->
+      <div class="logo">
+        <h1>
+          <router-link to="/home"
+            ><img
+              src="./img/logo.jpg"
+              title="这是一个logo"
+              alt=""
+              width="150px"
+              height="95px"
+          /></router-link>
+        </h1>
+      </div>
+      <!-- search -->
+      <div class="search">
+        <input
+          type="text"
+          class="text"
+          placeholder="请搜索内容..."
+          v-model="keyword"
+        />
+        <button class="btn" @click="goSearch">搜一搜</button>
+      </div>
+      <!-- hotwrods -->
+      <div class="hotwrods">
+        <a href="#" class="style-red">优惠购首发</a>
+        <a href="#">亿元优惠</a>
+        <a href="#">9.9元团购</a>
+        <a href="#">美满99减30</a>
+        <a href="#">办公用品</a>
+        <a href="#">电脑</a>
+        <a href="#">通信</a>
+      </div>
+      <a href="shopping.html">
         <div class="shopcar">
-            <i class="car"> </i>我的购物车 <i class="arrow">  </i>
-            <i class="count">80</i>
+          <i class="car"> </i>我的购物车 <i class="arrow">  </i>
+          <i class="count">80</i>
         </div>
-        </a>
+      </a>
     </div>
     <!-- header 结束 -->
   </div>
@@ -140,22 +154,30 @@ export default {
   name: "Header",
   data() {
     return {
-      keyword:''
+      keyword: "",
     };
   },
   methods: {
     // 路由传递参数
-    goSearch(){
+    goSearch() {
       // .toUpperCase()是大写的意思
       // this.$router.push('/search/'+this.keyword+"?id="+this.keyword.toUpperCase())
-    
-    // 常用：对象传参
-    this.$router.push({
-      name:'xiangqing',
-      params:{keyword:this.keyword},
-      query:{id:this.keyword.toUpperCase()}
-    })
-    }
+
+      // 常用：对象传参
+      this.$router.push(
+        {
+          name: "xiangqing",
+          params: { keyword: this.keyword },
+          query: { id: this.keyword.toUpperCase() },
+        },
+        //如果不加下面的成功或失败的回调，重复点击搜索按钮时控制面板会飘红，虽然是没有影响的。。。(治标不治本方法)
+        // () => {},
+        // () => {}
+      );
+
+      // 如何指定params参数可传可不传？只需在路由path后的占位符后加'?'
+      // this.$router.push({name:'xiangqing',query:{id:this.keyword.toUpperCase()}})
+    },
   },
 };
 </script>
@@ -167,21 +189,21 @@ export default {
 }
 /*顶部快捷导航*/
 .shortcut {
-	height: 31px;
-	background-color: #f1f1f1;
-	line-height: 31px;
+  height: 31px;
+  background-color: #f1f1f1;
+  line-height: 31px;
 }
 .shortcut li {
-	float: left;
-}
-.w {
-	width: 1200px;
-	margin: 0 auto;
-}
-.fl{
   float: left;
 }
-.fr{
+.w {
+  width: 1200px;
+  margin: 0 auto;
+}
+.fl {
+  float: left;
+}
+.fr {
   float: right;
 }
 /* 下拉列表部分 */
@@ -219,7 +241,7 @@ export default {
   border-right: #eae0e0 1px solid;
 }
 
-.nava>li>a:hover {
+.nava > li > a:hover {
   background-color: #eee;
 }
 
@@ -229,31 +251,31 @@ export default {
   top: 30px;
   left: 0;
   width: 100%;
-  border-left: 1px solid #FECC5B;
-  border-right: 1px solid #FECC5B;
+  border-left: 1px solid #fecc5b;
+  border-right: 1px solid #fecc5b;
 }
 
 .nava ul li {
-  border-bottom: 1px solid #FECC5B;
+  border-bottom: 1px solid #fecc5b;
 }
 
 .nava ul li a:hover {
-  background-color: #FFF5DA;
+  background-color: #fff5da;
 }
 /*header区域*/
 .header {
-	position: relative;
-	height: 105px;
+  position: relative;
+  height: 105px;
 }
 .logo {
-	position: absolute;
-	top: 25px;
-	left: 0;
-	width: 175px;
-	height: 56px;
+  position: absolute;
+  top: 25px;
+  left: 0;
+  width: 175px;
+  height: 56px;
 }
-.logo img{
-  border-radius: 15px 50px
+.logo img {
+  border-radius: 15px 50px;
 }
 /* .logo a {
 	display: block;
@@ -263,64 +285,64 @@ export default {
 	font-size: 0; 
 }*/
 .search {
-	position: absolute;
-	top: 25px;
-	left: 348px;
+  position: absolute;
+  top: 25px;
+  left: 348px;
 }
 .text {
-	float: left;
-	width: 445px;
-	height: 32px;
-	border: 2px solid #ea5b17;
-	padding-left: 10px;
+  float: left;
+  width: 445px;
+  height: 32px;
+  border: 2px solid #ea5b17;
+  padding-left: 10px;
 }
 .btn {
-	float: left;
-	width: 82px;
-	height: 36px;
-	background-color: #ea5b17;
-	border: 0;
-	font-size: 16px;
-	color: #fff;
+  float: left;
+  width: 82px;
+  height: 36px;
+  background-color: #ea5b17;
+  border: 0;
+  font-size: 16px;
+  color: #fff;
 }
 .hotwrods {
-	position: absolute;
-	top: 65px;
-	left: 348px;
+  position: absolute;
+  top: 65px;
+  left: 348px;
 }
 .hotwrods a {
-	margin: 0 10px;
+  margin: 0 10px;
 }
 .shopcar {
-	position: absolute;
-	top:25px;
-	right: 64px;
-	width: 138px;
-	height: 34px;
-	border: 1px solid #dfdfdf;
-	background-color: #f7f7f7;
-	line-height: 34px;
-	text-align: center;
+  position: absolute;
+  top: 25px;
+  right: 64px;
+  width: 138px;
+  height: 34px;
+  border: 1px solid #dfdfdf;
+  background-color: #f7f7f7;
+  line-height: 34px;
+  text-align: center;
 }
 .car {
-	font-family: 'icomoon';
-	color: #da5555;
+  font-family: "icomoon";
+  color: #da5555;
 }
 .arrow {
-	font-family: 'icomoon';
-	margin-left: 5px;
+  font-family: "icomoon";
+  margin-left: 5px;
 }
 .count {
-	position: absolute;
-	top: -5px;
-	/*应该是左侧对齐 文字才能往右走显示*/
-	left: 100px;
-	background-color: #e60012;
-	height: 14px;
-	padding: 0 3px;
-	line-height: 14px;
-	color: #fff;
-	/*border-radius: 左上角 右上角  右下角  左下角;*/
-	border-radius: 7px 7px 7px 0;
+  position: absolute;
+  top: -5px;
+  /*应该是左侧对齐 文字才能往右走显示*/
+  left: 100px;
+  background-color: #e60012;
+  height: 14px;
+  padding: 0 3px;
+  line-height: 14px;
+  color: #fff;
+  /*border-radius: 左上角 右上角  右下角  左下角;*/
+  border-radius: 7px 7px 7px 0;
 }
 </style>

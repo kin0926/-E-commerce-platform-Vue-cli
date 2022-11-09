@@ -6,8 +6,17 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 //引入路由
 import router from '@/router'
+// 三级联动组件--因为很多组件都用，所以设置成全局组件
+import TypeNav from '@/pages/Home/TypeNav'
+
+import { reqCateGoryList } from './api'
+//发起请求
+reqCateGoryList();
+
 //使用ElementUI
 Vue.use(ElementUI);
+// 使用三级联动组件 TypeNav. 2个参数（全局组件的名字，哪一个组件）
+Vue.component(TypeNav.name, TypeNav)
 
 Vue.config.productionTip = false
 

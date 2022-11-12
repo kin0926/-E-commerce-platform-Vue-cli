@@ -6,12 +6,10 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 //引入路由
 import router from '@/router'
+//引入Vuex
+import store from './store';
 // 三级联动组件--因为很多组件都用，所以设置成全局组件
-import TypeNav from '@/pages/Home/TypeNav'
-
-import { reqCateGoryList } from './api'
-//发起请求
-reqCateGoryList();
+import TypeNav from '@/components/TypeNav'
 
 //使用ElementUI
 Vue.use(ElementUI);
@@ -23,4 +21,5 @@ Vue.config.productionTip = false
 new Vue({
     render: h => h(App),
     router: router,
+    store,
 }).$mount('#app')

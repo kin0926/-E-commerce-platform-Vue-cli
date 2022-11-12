@@ -40,6 +40,7 @@
             <li><span class="bold">[特惠]</span>备战开学季 全民半价购数码</li>
             <li><span class="bold">[公告]</span>备战开学季 全民半价购数码</li>
             <li><span class="bold">[特惠]</span>备战开学季 全民半价购数码</li>
+            <li><span class="bold">[特惠]</span>备战开学季 全民半价购数码</li>
           </ul>
         </div>
         <ul class="lifeservices">
@@ -155,7 +156,7 @@ export default {
 
                     .news-list {
                         padding: 5px 15px;
-                        line-height: 26px;
+                        line-height: 30px;
                         font-size: 14px;
                         .bold {
                             font-weight: 700;

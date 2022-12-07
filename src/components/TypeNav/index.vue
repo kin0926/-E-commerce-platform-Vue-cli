@@ -2,7 +2,55 @@
   <!-- 商品分类导航 -->
   <div class="type-nav">
     <div class="container">
-      <h2 class="all">全部商品分类</h2>
+      <div @mouseenter="enterShow" @mouseleave="leaveShow">
+        <h2 class="all">全部商品分类</h2>
+        <transition
+          name="animate__animated animate__bounce"
+          enter-active-class="animate__backInDown"
+          leave-active-class="animate__fadeOut"
+        >
+          <div class="sort" v-show="show">
+            <!-- 利用事件委派+编程式路由导航实现路由的跳转和传递参数 -->
+            <div class="all-sort-list2" @click="goSearch">
+              <div class="item" v-for="c1 in categoryList" :key="c1.categoryId">
+                <h3>
+                  <a
+                    :data-categoryName="c1.categoryName"
+                    :data-category1Id="c1.categoryId"
+                    >{{ c1.categoryName }}</a
+                  >
+                </h3>
+                <div class="item-list clearfix">
+                  <div
+                    class="subitem"
+                    v-for="c2 in c1.categoryChild"
+                    :key="c2.categoryId"
+                  >
+                    <dl class="fore">
+                      <dt>
+                        <a
+                          :data-categoryName="c2.categoryName"
+                          :data-category2Id="c2.categoryId"
+                          >{{ c2.categoryName }}</a
+                        >
+                      </dt>
+                      <dd>
+                        <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
+                          <a
+                            :data-categoryName="c3.categoryName"
+                            :data-category3Id="c3.categoryId"
+                            >{{ c3.categoryName }}</a
+                          >
+                        </em>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition>
+      </div>
       <nav class="nav">
         <a href="###">服装城</a>
         <a href="###">美妆馆</a>
@@ -13,29 +61,6 @@
         <a href="###">有趣</a>
         <a href="###">秒杀</a>
       </nav>
-      <div class="sort">
-        <div class="all-sort-list2">
-          <div class="item" v-for="(c1,index) in categoryList" :key="c1.categoryId">
-            <h3>
-              <a href="">{{c1.categoryName}}</a>
-            </h3>
-            <div class="item-list clearfix">
-              <div class="subitem" v-for="(c2,index) in c1.categoryChild" :key="c2.categoryId">
-                <dl class="fore">
-                  <dt>
-                    <a href="">{{c2.categoryName}}</a>
-                  </dt>
-                  <dd>
-                    <em v-for="(c3,index) in c2.categoryChild" :key="c3.categoryId">
-                      <a href="">{{c3.categoryName}}</a>
-                    </em>
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -43,13 +68,25 @@
 <script>
 // { mapState }辅助函数，简化代码的
 import { mapState } from "vuex";
+// 引入过渡动画组件库
+import "animate.css";
+
 export default {
   name: "TypeNav",
+  data() {
+    return {
+      show: true,
+    };
+  },
   // 组件挂载，向服务器发送请求获取数据
   mounted() {
     //通知Vuex发请求，获取数据，并存储于仓库当中,
     //这里actions取名叫做categorylist，然后去Vuex里配置actions
-    this.$store.dispatch("categoryList");
+    //转移到App.vue里了，这样就避免了切换组件频繁发请求获取数据
+    // this.$store.dispatch("categoryList");
+    if (this.$route.path != "/home") {
+      this.show = false;
+    }
   },
   computed: {
     ...mapState({
@@ -57,6 +94,45 @@ export default {
       //注入一个参数state，即Vuex大仓库里的数据
       categoryList: (state) => state.home.categoryList,
     }),
+  },
+  methods: {
+    goSearch(event) {
+      //编程式导航+事件委派
+      //target可以获取自定义属性,这里可以把所有a标签区别出来，其他标签没有自定义属性
+      let element = event.target;
+      //console.log(element);
+      //dataset可以获取节点的自定义属性和属性值
+      let { categoryname, category1id, category2id, category3id } =
+        element.dataset;
+      if (categoryname) {
+        let location = { name: "xiangqing" };
+        let query = { categoryName: categoryname };
+
+        if (category1id) {
+          query.category1Id = category1id;
+        } else if (category2id) {
+          query.category2Id = category2id;
+        } else {
+          query.category3Id = category3id;
+        }
+        // 如果路由跳转有params参数，则一起捎带着传递过去
+        if (this.$route.params) {
+          location.params = this.$route.params;
+          // 动态给location配置对象添加query参数
+          location.query = query;
+          //路由跳转
+          this.$router.push(location);
+        }
+      }
+    },
+    enterShow() {
+      this.show = true;
+    },
+    leaveShow() {
+      if (this.$route.path != "/home") {
+        this.show = false;
+      }
+    },
   },
 };
 </script>
@@ -178,7 +254,7 @@ export default {
             }
           }
         }
-        .item:hover{
+        .item:hover {
           background: rgb(241, 197, 161);
         }
       }

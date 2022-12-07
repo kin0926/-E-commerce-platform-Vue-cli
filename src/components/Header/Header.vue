@@ -164,16 +164,15 @@ export default {
       // this.$router.push('/search/'+this.keyword+"?id="+this.keyword.toUpperCase())
 
       // 常用：对象传参
-      this.$router.push(
-        {
-          name: "xiangqing",
-          params: { keyword: this.keyword },
-          query: { id: this.keyword.toUpperCase() },
-        },
+      if(this.$route.query){
+        // 原本是传递params的，加个判断，如果有query也捎带着带过去
+        let location = {name: "xiangqing",params: { keyword: this.keyword }};
+        location.query = this.$route.query;
+        this.$router.push(location)
         //如果不加下面的成功或失败的回调，重复点击搜索按钮时控制面板会飘红，虽然是没有影响的。。。(治标不治本方法)
         // () => {},
         // () => {}
-      );
+      }
 
       // 如何指定params参数可传可不传？只需在路由path后的占位符后加'?'
       // this.$router.push({name:'xiangqing',query:{id:this.keyword.toUpperCase()}})

@@ -21,6 +21,11 @@ export default {
     HeaderVue,
     FooterVue,
   },
+  mounted(){
+    //通知Vuex发请求，获取数据，并存储于仓库当中,
+    //这里actions取名叫做categorylist，然后去Vuex里配置actions
+    this.$store.dispatch("categoryList");
+  }
 };
 </script>
 

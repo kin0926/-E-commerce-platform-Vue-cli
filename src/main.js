@@ -10,6 +10,10 @@ import router from '@/router'
 import store from './store';
 // 三级联动组件--因为很多组件都用，所以设置成全局组件
 import TypeNav from '@/components/TypeNav'
+// 引入mock
+import '@/mock/mockServer'
+//引入swiper轮播图样式
+// import "swiper/swiper-bundle.min.css";
 
 //使用ElementUI
 Vue.use(ElementUI);

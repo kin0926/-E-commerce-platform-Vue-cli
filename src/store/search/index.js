@@ -21,5 +21,17 @@ export default {
         searchList: {}
     },
     //计算属性
-    getters: {},
+    //进入网络不给力导致页面加载好了数据还没有传回来，那么会返回undefined
+    //而计算属性的属性值至少是个数组，所以添加“ || [] ”
+    getters: {
+        attrsList(state) {
+            return state.searchList.attrsList || [];
+        },
+        goodsList(state) {
+            return state.searchList.goodsList || [];
+        },
+        trademarkList(state) {
+            return state.searchList.trademarkList || [];
+        },
+    },
 }

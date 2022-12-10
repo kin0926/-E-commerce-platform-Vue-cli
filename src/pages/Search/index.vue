@@ -121,6 +121,7 @@ import { mapGetters} from 'vuex'
     components: {
       SearchSelector
     },
+    // 发送action-订单
     mounted(){
       this.$store.dispatch('getSearchList',{})
     },

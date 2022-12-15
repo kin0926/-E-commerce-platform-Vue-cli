@@ -173,11 +173,17 @@ export default {
         // () => {},
         // () => {}
       }
-
+      // 当点击搜索后清空搜索框
+      this.keyword = '';
       // 如何指定params参数可传可不传？只需在路由path后的占位符后加'?'
       // this.$router.push({name:'xiangqing',query:{id:this.keyword.toUpperCase()}})
     },
   },
+  mounted(){
+    this.$bus.$on('clear',()=>{
+      this.keyword = '';
+    })
+  }
 };
 </script>
 

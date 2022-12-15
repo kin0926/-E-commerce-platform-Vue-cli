@@ -6,7 +6,6 @@
         <h2 class="all">全部商品分类</h2>
         <transition
           name="animate__animated animate__bounce"
-          enter-active-class="animate__backInDown"
           leave-active-class="animate__fadeOut"
         >
           <div class="sort" v-show="show">

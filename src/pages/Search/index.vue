@@ -13,14 +13,32 @@
           </ul>
           <ul class="fl sui-tag">
             <!-- query三级分类的面包屑 -->
-            <li class="with-x" v-if="searchParams.categoryName">{{searchParams.categoryName}}<i @click="removeCategoryName">×</i></li>
+            <li class="with-x" v-if="searchParams.categoryName">
+              {{ searchParams.categoryName
+              }}<i @click="removeCategoryName">×</i>
+            </li>
             <!-- params关键字的面包屑 -->
-            <li class="with-x" v-if="searchParams.keyword">{{searchParams.keyword}}<i @click="removeKeyword">×</i></li>
+            <li class="with-x" v-if="searchParams.keyword">
+              {{ searchParams.keyword }}<i @click="removeKeyword">×</i>
+            </li>
+            <!-- 品牌部分的面包屑 -->
+            <li class="with-x" v-if="searchParams.trademark">
+              {{ searchParams.trademark.split(":")[1]
+              }}<i @click="removeTrademark">×</i>
+            </li>
+            <!-- 平台售卖属性的面包屑 -->
+            <li
+              class="with-x"
+              v-for="(attrValue, index) in searchParams.props"
+              :key="index"
+            >
+              {{ attrValue.split(":")[1] }}<i @click="removeProps">×</i>
+            </li>
           </ul>
         </div>
 
         <!--selector上面商品筛选部分（子组件）-->
-        <SearchSelector />
+        <SearchSelector @trademarkInfo="trademarkInfo" @attrInfo="attrInfo" />
 
         <!--details排序栏部分-->
         <div class="details clearfix">
@@ -173,28 +191,50 @@ export default {
     getData() {
       this.$store.dispatch("getSearchList", this.searchParams);
     },
+    trademarkInfo(trademark) {
+      this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
+      this.getData();
+    },
+    attrInfo(attrs, attrValue) {
+      // console.log(attrs,attrValue);
+      let props = `${attrs.attrId}:${attrValue}:${attrs.attrName}`;
+      // 数组去重，如果结果为-1则代表没有相同的，这时就可以push上去
+      if (this.searchParams.props.indexOf(props) == -1) {
+        this.searchParams.props.push(props);
+      }
+      this.getData();
+    },
     // query三级分类的面包屑
-    removeCategoryName(){
+    removeCategoryName() {
       this.searchParams.categoryName = undefined;
       this.searchParams.category1Id = undefined;
       this.searchParams.category2Id = undefined;
       this.searchParams.category3Id = undefined;
       this.getData();
       // 进行路由的跳转
-      if(this.$route.params){
-        this.$router.push({name:'xiangqing',params:this.$route.params})
+      if (this.$route.params) {
+        this.$router.push({ name: "xiangqing", params: this.$route.params });
       }
     },
     // params关键字的面包屑
-    removeKeyword(){
+    removeKeyword() {
       this.searchParams.keyword = undefined;
       this.getData();
-      this.$bus.$emit('clear');
       // 进行路由的跳转
-      if(this.$route.query){
-        this.$router.push({name:'xiangqing',query:this.$route.query})
+      if (this.$route.query) {
+        this.$router.push({ name: "xiangqing", query: this.$route.query });
       }
-    }
+    },
+    // 品牌部分的面包屑
+    removeTrademark() {
+      this.searchParams.trademark = undefined;
+      this.getData();
+    },
+    // 删除售卖属性的面包屑
+    removeProps(index) {
+      this.searchParams.props.splice(index, 1);
+      this.getData();
+    },
   },
   watch: {
     $route(newValue, oldValue) {

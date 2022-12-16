@@ -179,11 +179,6 @@ export default {
       // this.$router.push({name:'xiangqing',query:{id:this.keyword.toUpperCase()}})
     },
   },
-  mounted(){
-    this.$bus.$on('clear',()=>{
-      this.keyword = '';
-    })
-  }
 };
 </script>
 

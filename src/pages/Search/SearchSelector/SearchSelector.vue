@@ -1,10 +1,10 @@
 <template>
   <div class="clearfix selector">
-    <div class="type-wrap logo">
+    <div class="type-wrap">
       <div class="fl key brand">品牌</div>
-      <div class="value logos">
+      <div class="value">
         <ul class="logo-list">
-          <li v-for="trademark in trademarkList" :key="trademark.tmId">{{trademark.tmName}}</li>
+          <li v-for="trademark in trademarkList" :key="trademark.tmId" @click="tradeMatkHandler(trademark)">{{trademark.tmName}}</li>
         </ul>
       </div>
       <div class="ext">
@@ -16,7 +16,7 @@
       <div class="fl key">{{attrs.attrName}}</div>
       <div class="fl value">
         <ul class="type-list">
-          <li v-for="(attrValue,index) in attrs.attrValueList" :key="index">
+          <li v-for="(attrValue,index) in attrs.attrValueList" :key="index" @click="attrInfo(attrs,attrValue)">
             <a>{{attrValue}}</a>
           </li>
         </ul>
@@ -32,7 +32,16 @@ export default {
   name: 'SearchSelector',
   computed:{
     ...mapGetters(['attrsList','trademarkList'])
-  }
+  },
+  methods: {
+    tradeMatkHandler(trademark){
+      this.$emit('trademarkInfo',trademark)
+    },
+    attrInfo(attrs,attrValue){
+      // console.log(attrs,attrValue);
+      this.$emit('attrInfo',attrs,attrValue)
+    }
+  },
 }
 </script>
 
@@ -43,11 +52,6 @@ export default {
   overflow: hidden;
 
   .logo {
-    border-top: 0;
-    margin: 0;
-    position: relative;
-    overflow: hidden;
-
     .key {
       padding-bottom: 87px !important;
     }
@@ -66,6 +70,11 @@ export default {
       text-align: right;
       padding: 10px 10px 0 15px;
       float: left;
+    }
+
+    .brand{
+      height: 106px;
+      line-height: 93px;
     }
 
     .value {

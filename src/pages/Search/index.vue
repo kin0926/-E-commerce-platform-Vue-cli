@@ -45,23 +45,11 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{ active: isOne }" @click="changeOrder('1')">
+                  <a>综合 <span v-show="isOne" :class="{'el-icon-arrow-up':isAsc,'el-icon-arrow-down':isDesc}"></span></a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li :class="{ active: isTwo }" @click="changeOrder('2')">
+                  <a>价格 <span v-show="isTwo" :class="{'el-icon-arrow-up':isAsc,'el-icon-arrow-down':isDesc}"></span></a>
                 </li>
               </ul>
             </div>
@@ -139,13 +127,21 @@
             </div>
           </div> -->
           <div class="block">
+            <!-- 
+              @size-change对应methods里的显示总页数（可无）
+              @current-change对应点击的是那一页，通知仓库获取对应数据显示
+              :current-page.sync当前页数
+              :page-size：每页显示个数
+              layout组件布局
+              :total总商品数
+             -->
             <el-pagination
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-              :current-page.sync="currentPage3"
-              :page-size="100"
+              :current-page.sync="searchParams.pageNo"
+              :page-size="searchParams.pageSize"
               layout="prev, pager, next, jumper"
-              :total="1000"
+              :total="total"
             >
             </el-pagination>
           </div>
@@ -156,7 +152,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import SearchSelector from "./SearchSelector/SearchSelector";
 export default {
   name: "Search",
@@ -169,13 +165,12 @@ export default {
         category3Id: "",
         categoryName: "",
         keyword: "",
-        order: "",
+        order: "1:desc",
         pageNo: 1,
-        pageSize: 4,
+        pageSize: 5,
         props: [],
         trademark: "",
       },
-      // currentPage3: 5,
     };
   },
   components: {
@@ -196,7 +191,26 @@ export default {
     this.getData();
   },
   computed: {
+    // 获取仓库的商品数据
     ...mapGetters(["goodsList"]),
+    // 获取仓库的一个有多少商品的数据
+    ...mapState({
+      total:state=>state.search.searchList.total,
+    }),
+    /* 排序部分 */
+    isOne() {
+      return this.searchParams.order.indexOf("1") != -1;
+    },
+    isTwo() {
+      return this.searchParams.order.indexOf("2") != -1;
+    },
+    /* 设置箭头是升序还是降序 */
+    isAsc(){
+      return this.searchParams.order.indexOf('asc')!=-1;
+    },
+    isDesc(){
+      return this.searchParams.order.indexOf('desc')!=-1;
+    }
   },
   //向服务器发送请求获取search模块数据封装成一个函数
   methods: {
@@ -247,13 +261,32 @@ export default {
       this.searchParams.props.splice(index, 1);
       this.getData();
     },
+    /* 排序方法 */
+    // flag是用于接收传值，区分1：综合，2：价格，这两个的
+    changeOrder(flag){
+      let newSearchOrder = this.searchParams.order;
+      let orderFlag = this.searchParams.order.split(':')[0];
+      let orderSort = this.searchParams.order.split(':')[1];
+      let newOrder = " ";
+      if(orderFlag == flag){
+        newOrder = `${flag}:${orderSort == 'desc'?'asc':'desc'}`
+        console.log(newOrder);
+      }else{
+        newOrder = `${flag}:${'desc'}`
+      };
+      /* 将新的Order赋予旧的order */
+      this.searchParams.order = newOrder;
+      this.getData();
+    },
     // 分页器
     handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
-      }
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.searchParams.pageNo = val
+      this.getData();
+    },
   },
   watch: {
     $route(newValue, oldValue) {
@@ -602,8 +635,12 @@ export default {
       }
     }
   }
-  .block{
+  //分页器
+  .block {
     margin-left: 260px;
+  }
+  .el-pager li.active {
+    color: #c81623;
   }
 }
 </style>

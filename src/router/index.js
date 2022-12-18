@@ -10,6 +10,7 @@ import Home from '@/pages/Home'
 import Search from '@/pages/Search'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
+import Detail from '@/pages/Detail'
 
 // 解决header里重复点击push上传时控制面板会飘红的问题，治本
 // 直接把header里的修改放到push里，当然，先备份一份先
@@ -44,6 +45,12 @@ export default new VueRouter({
             meta: { show: true }
         },
         {
+            name: 'detail',
+            path: '/detail/:skuid',
+            component: Detail,
+            meta: { show: true }
+        },
+        {
             name: 'denglu',
             path: '/login',
             component: Login,
@@ -60,5 +67,9 @@ export default new VueRouter({
             path: '/',
             redirect: '/home'
         }
-    ]
+    ],
+    scrollBehavior(to, from, savedPosition) {
+        // 始终滚动到顶部
+        return { y: 0 }
+    },
 })

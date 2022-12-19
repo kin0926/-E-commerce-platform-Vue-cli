@@ -13,7 +13,7 @@ import TypeNav from '@/components/TypeNav'
 // 引入mock
 import '@/mock/mockServer'
 //引入swiper轮播图样式
-// import "swiper/swiper-bundle.min.css";
+import "swiper/swiper-bundle.min.css";
 //使用ElementUI
 Vue.use(ElementUI);
 // 使用三级联动组件 TypeNav. 2个参数（全局组件的名字，哪一个组件）

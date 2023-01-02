@@ -35,3 +35,9 @@ export const reqGetSearchInfo = (params) => {
 
 //商品详情信息的接口 请求地址：/api/item/{ skuId } 请求方式get
 export const reqGoodsInfo = (skuId) => requests({ url: `/item/${skuId}`, method: 'GET' })
+
+// 商品的添加到购物车部分 /api/cart/addToCart/{ skuId }/{ skuNum }  post请求
+export const reqAddCart = (skuId, skuNum) => requests({ url: `cart/addToCart/${skuId}/${skuNum}`, method: 'post' })
+
+//获取购物车列表  /api/cart/cartList  get请求
+export const reqCartList = () => requests({ url: 'cart/cartList', method: 'GET' })

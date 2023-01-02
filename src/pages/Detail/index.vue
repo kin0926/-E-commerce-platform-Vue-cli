@@ -7,9 +7,15 @@
     <section class="con">
       <!-- 导航路径区域 -->
       <div class="conPoin">
-        <span v-show="categoryView.category1Name">{{categoryView.category1Name}}</span>
-        <span v-show="categoryView.category2Name">{{categoryView.category2Name}}</span>
-        <span v-show="categoryView.category3Name">{{categoryView.category3Name}}</span>
+        <span v-show="categoryView.category1Name">{{
+          categoryView.category1Name
+        }}</span>
+        <span v-show="categoryView.category2Name">{{
+          categoryView.category2Name
+        }}</span>
+        <span v-show="categoryView.category3Name">{{
+          categoryView.category3Name
+        }}</span>
       </div>
       <!-- 主要内容区域 -->
       <div class="mainCon">
@@ -32,7 +38,7 @@
                 </div>
                 <div class="price">
                   <i>¥</i>
-                  <em>{{skuInfo.price}}</em>
+                  <em>{{ skuInfo.price }}</em>
                   <span> 降价通知</span>
                 </div>
                 <div class="remark">
@@ -71,39 +77,38 @@
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
-              <dl>
-                <dt class="title">选择颜色</dt>
-                <dd changepirce="0" class="active">金色</dd>
-                <dd changepirce="40">银色</dd>
-                <dd changepirce="90">黑色</dd>
-              </dl>
-              <dl>
-                <dt class="title">内存容量</dt>
-                <dd changepirce="0" class="active">16G</dd>
-                <dd changepirce="300">64G</dd>
-                <dd changepirce="900">128G</dd>
-                <dd changepirce="1300">256G</dd>
-              </dl>
-              <dl>
-                <dt class="title">选择版本</dt>
-                <dd changepirce="0" class="active">公开版</dd>
-                <dd changepirce="-1000">移动版</dd>
-              </dl>
-              <dl>
-                <dt class="title">购买方式</dt>
-                <dd changepirce="0" class="active">官方标配</dd>
-                <dd changepirce="-240">优惠移动版</dd>
-                <dd changepirce="-390">电信优惠版</dd>
+              <dl v-for="spuSaleAttr in spuSaleAttrList" :key="spuSaleAttr.id">
+                <dt class="title">{{ spuSaleAttr.saleAttrName }}</dt>
+                <dd
+                  changepirce="0"
+                  :class="{ active: spuSaleAttrValue.isChecked == 1 }"
+                  v-for="spuSaleAttrValue in spuSaleAttr.spuSaleAttrValueList"
+                  :key="spuSaleAttrValue.id"
+                  @click="
+                    changeActive(
+                      spuSaleAttrValue,
+                      spuSaleAttr.spuSaleAttrValueList
+                    )
+                  "
+                >
+                  {{ spuSaleAttrValue.saleAttrValueName }}
+                </dd>
               </dl>
             </div>
+
             <div class="cartWrap">
+              <!-- element-ui的计数器 -->
               <div class="controls">
-                <input autocomplete="off" class="itxt" />
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <el-input-number
+                  v-model="num"
+                  controls-position="right"
+                  :min="1"
+                  :max="100"
+                ></el-input-number>
               </div>
+
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a @click="AddCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -342,13 +347,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 import ImageList from "./ImageList/ImageList";
 import Zoom from "./Zoom/Zoom";
 
 export default {
   name: "Detail",
-
+  data() {
+    return {
+      num: 1,
+    };
+  },
   components: {
     ImageList,
     Zoom,
@@ -356,12 +365,37 @@ export default {
   mounted() {
     this.$store.dispatch("getGoodInfo", this.$route.params.skuid);
   },
-  computed:{
-    ...mapGetters(['categoryView','skuInfo']),
-    skuImageList(){
-      return this.skuInfo.skuImageList || []
-    }
-  }
+  methods: {
+    changeActive(spuSaleAttrValue, arr) {
+      arr.forEach((item) => {
+        item.isChecked = 0;
+      });
+      spuSaleAttrValue.isChecked = 1;
+    },
+    async AddCart() {
+      // 派发action，通知服务器：成功：路由跳转，失败：提示用户
+      try {
+        // 成功时返回
+        await this.$store.dispatch("reqAddCart", {
+          skuId: this.$route.params.skuid,
+          skuNum: this.num,
+        });
+        // 本地会话存储skuInfo产品信息数据
+        sessionStorage.setItem('SKUINFO',JSON.stringify(this.skuInfo))
+        // 成功时路由跳转到‘加入购物车成功’页面
+        this.$router.push({name:'addCartsuccess',query:{skuNum:this.num}})
+      } catch (error) {
+        // 失败时返回
+        alert(error.message);
+      }
+    },
+  },
+  computed: {
+    ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList"]),
+    skuImageList() {
+      return this.skuInfo.skuImageList || [];
+    },
+  },
 };
 </script>
 
@@ -533,43 +567,12 @@ export default {
               position: relative;
               float: left;
               margin-right: 15px;
-
-              .itxt {
-                width: 38px;
-                height: 37px;
-                border: 1px solid #ddd;
-                color: #555;
-                float: left;
-                border-right: 0;
-                text-align: center;
-              }
-
-              .plus,
-              .mins {
-                width: 15px;
-                text-align: center;
-                height: 17px;
-                line-height: 17px;
-                background: #f1f1f1;
-                color: #666;
-                position: absolute;
-                right: -8px;
-                border: 1px solid #ccc;
-              }
-
-              .mins {
-                right: -8px;
-                top: 19px;
-                border-top: 0;
-              }
-
-              .plus {
-                right: -8px;
-              }
             }
 
             .add {
               float: left;
+              position: relative;
+              left: 139px;
 
               a {
                 background-color: #e1251b;

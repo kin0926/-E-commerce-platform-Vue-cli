@@ -7,6 +7,7 @@ Vue.use(Vuex);
 import home from './home'
 import search from './search'
 import detal from "./detal";
+import shopcart from "./shopcart";
 
 //把数据对外暴露
 export default new Vuex.Store({
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     modules: {
         home,
         search,
-        detal
+        detal,
+        shopcart
     }
 })

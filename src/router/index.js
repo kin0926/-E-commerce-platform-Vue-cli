@@ -11,6 +11,8 @@ import Search from '@/pages/Search'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 import Detail from '@/pages/Detail'
+import AddCartSuccess from '@/pages/AddCartSuccess'
+import ShopCart from '@/pages/ShopCart'
 
 // 解决header里重复点击push上传时控制面板会飘红的问题，治本
 // 直接把header里的修改放到push里，当然，先备份一份先
@@ -48,6 +50,17 @@ export default new VueRouter({
             name: 'detail',
             path: '/detail/:skuid',
             component: Detail,
+            meta: { show: true }
+        },
+        {
+            name: 'addCartsuccess',
+            path: '/addCartsuccess',
+            component: AddCartSuccess,
+            meta: { show: true }
+        },
+        {
+            path: '/shopcart',
+            component: ShopCart,
             meta: { show: true }
         },
         {

@@ -5,6 +5,9 @@ import nprogress from 'nprogress';
 import "nprogress/nprogress.css";
 //这里使用进度条插件的2个方法，1、start（进度条开始）  2、done（进度条结束）
 
+// 在当前模块中引入store(里的)
+import store from '@/store'
+
 //使用axios的create方法
 const requests = axios.create({
         baseURL: '/api',
@@ -12,6 +15,12 @@ const requests = axios.create({
     })
     //配置请求拦截器
 requests.interceptors.request.use(config => {
+        // 游客身份,判断仓库里有没有nanoid_token，如果有则给请求头添加一个字段
+        if (store.state.detal.nanoid_token) {
+            // 请求头添加一个字段‘userTempId’，这个是要和后台老师商量好的
+            config.headers.userTempId = store.state.detal.nanoid_token
+        }
+
         //在发送请求前，开启进度条
         nprogress.start();
         return config;

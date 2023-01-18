@@ -7,13 +7,26 @@ export default {
         async getCartList({ commit }) {
             let result = await reqCartList();
             // 测试能否获取购物车的数据，（先到组件里发送action订单）
-            console.log(result);
+            // console.log(result);
+            if (result.code == 200) {
+                commit('GETCARTLIST', result.data)
+            }
         }
     },
     //修改数据的地方
-    mutations: {},
+    mutations: {
+        GETCARTLIST(state, cartList) {
+            state.cartList = cartList;
+        }
+    },
     //存储数据的地方
-    state: {},
+    state: {
+        cartList: [],
+    },
     // 简化代码
-    getters: {},
+    getters: {
+        cartList(state) {
+            return state.cartList[0] || {};
+        }
+    },
 }

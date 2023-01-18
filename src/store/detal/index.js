@@ -1,5 +1,7 @@
 //home里的形式和这边的形式都可以
 import { reqGoodsInfo, reqAddCart } from '@/api'
+import { getNANOID } from '@/utils/nanoid_token'
+
 export default {
     //处理actions的地方，可以书写业务逻辑、处理异步
     actions: {
@@ -23,7 +25,8 @@ export default {
     },
     //存储数据的地方
     state: {
-        goodsInfo: {}
+        goodsInfo: {},
+        nanoid_token: getNANOID(),
     },
     // 简化代码
     getters: {

@@ -90,6 +90,9 @@
 
 <script>
 import { mapGetters } from "vuex";
+// 导入节流
+import throttle from 'lodash/throttle';
+
 export default {
   name: "ShopCart",
   methods: {
@@ -98,8 +101,8 @@ export default {
       this.$store.dispatch("getCartList");
     },
     // 商品数量部分
-    //加入节流操作
-    async handler(type, disNum, cart) {
+    //加入节流操作,1000毫米内只能点一次
+    handler:throttle(async function(type, disNum, cart) {
       //减按钮判断当前数量是否为1
       if (type === "minus") {
         //当商品数量为1是，不可以再减少
@@ -111,7 +114,7 @@ export default {
       if (type === "change") {
         //输入内容不合法时
         if (isNaN(disNum * 1) || disNum <= 0) {
-          disNum = 0;
+          disNum = 1;
         } else {
           disNum = parseInt(disNum) - cart.skuNum;
         }
@@ -126,7 +129,7 @@ export default {
         //商品数量修改成功后再次获取服务器数据
         this.getDate();
       } catch (error) {}
-    },
+    },600),
   },
   computed: {
     ...mapGetters(["cartList"]),

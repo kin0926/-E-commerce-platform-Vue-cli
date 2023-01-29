@@ -14,7 +14,12 @@
       <div class="cart-body">
         <ul class="cart-list" v-for="cart in cartInfoList" :key="cart.id">
           <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" />
+            <input
+              type="checkbox"
+              name="chk_list"
+              :checked="cart.isChecked == 1"
+              @change="updateCheckCart(cart, $event)"
+            />
           </li>
           <li class="cart-list-con2">
             <img :src="cart.imgUrl" />
@@ -54,7 +59,7 @@
             <span class="sum">{{ cart.skuNum * cart.skuPrice }}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet">删除</a>
+            <a class="sindelet" @click="deleteCartById(cart)">删除</a>
             <br />
             <a href="#none">移到收藏</a>
           </li>
@@ -91,7 +96,7 @@
 <script>
 import { mapGetters } from "vuex";
 // 导入节流
-import throttle from 'lodash/throttle';
+import throttle from "lodash/throttle";
 
 export default {
   name: "ShopCart",
@@ -101,13 +106,13 @@ export default {
       this.$store.dispatch("getCartList");
     },
     // 商品数量部分
-    //加入节流操作,1000毫米内只能点一次
-    handler:throttle(async function(type, disNum, cart) {
+    //加入节流操作,800毫米内只能点一次
+    handler: throttle(async function (type, disNum, cart) {
       //减按钮判断当前数量是否为1
       if (type === "minus") {
         //当商品数量为1是，不可以再减少
-        disNum = cart.skuNum >1? -1:0;
-      }else if (type === "add") {
+        disNum = cart.skuNum > 1 ? -1 : 0;
+      } else if (type === "add") {
         disNum = 1;
       }
       //输入框修改,难点：要判断输入的内容是否合法
@@ -129,7 +134,33 @@ export default {
         //商品数量修改成功后再次获取服务器数据
         this.getDate();
       } catch (error) {}
-    },600),
+    }, 800),
+    // 删除商品操作
+    async deleteCartById(cart) {
+      try {
+        // dispatch给仓库发送action订单
+        await this.$store.dispatch("getDeleteCart", cart.skuId);
+        this.getDate();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+    // 修改某个商品的勾选状态
+    async updateCheckCart(cart, event) {
+      // console.log(event);
+      try {
+        // 新建一个isChecked用于存储勾选的状态
+        let isChecked = event.target.checked ? "1" : "0";
+        // 发送订单请求，同时携带两个值，第二个值是上面刚定义的这个，如果键值对的名字相同是可以简写的
+        await this.$store.dispatch("getCheckCart", {
+          skuId: cart.skuId,
+          isChecked: isChecked,
+        });
+        this.getDate();
+      } catch (error) {
+        alert(error.message)
+      }
+    },
   },
   computed: {
     ...mapGetters(["cartList"]),
@@ -169,6 +200,7 @@ export default {
   // 这个是计数器的宽度
   width: 100px;
 }
+
 .cart {
   width: 1200px;
   margin: 0 auto;
@@ -213,9 +245,11 @@ export default {
       .cart-th3 {
         width: 14%;
       }
+
       .cart-th4 {
         width: 11%;
       }
+
       .cart-th5,
       .cart-th6 {
         width: 12.5%;
@@ -299,7 +333,8 @@ export default {
             text-align: center;
             padding: 8px;
           }
-          .itxt{
+
+          .itxt {
             height: 37px;
           }
         }

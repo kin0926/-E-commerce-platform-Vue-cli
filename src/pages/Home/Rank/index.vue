@@ -135,7 +135,7 @@ export default {
             width: 35px;
             height: 35px;
             display: block;
-            background: url(../images/bg0.png);
+            background: url(./images/bg0.png);
             margin: auto;
           }
         }

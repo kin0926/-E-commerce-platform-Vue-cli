@@ -47,6 +47,7 @@
             <li>BUY-ME欢迎您！</li>
             <li>
               <router-link to="/login">请登录</router-link>
+              <span> | </span>
               <router-link to="/register" class="style-red"
                 >免费注册</router-link
               >

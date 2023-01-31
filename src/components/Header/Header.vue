@@ -111,7 +111,7 @@
           <router-link to="/home"
             ><img
               src="./img/logo.jpg"
-              title="这是一个logo"
+              title="点击这里回到首页"
               alt=""
               width="150px"
               height="95px"

@@ -14,12 +14,8 @@
       <div class="cart-body">
         <ul class="cart-list" v-for="cart in cartInfoList" :key="cart.id">
           <li class="cart-list-con1">
-            <input
-              type="checkbox"
-              name="chk_list"
-              :checked="cart.isChecked == 1"
-              @change="updateCheckCart(cart, $event)"
-            />
+            <input type="checkbox" name="chk_list" :checked="cart.isChecked == 1"
+              @change="updateCheckCart(cart, $event)" />
           </li>
           <li class="cart-list-con2">
             <img :src="cart.imgUrl" />
@@ -32,26 +28,10 @@
             <span class="price">{{ cart.skuPrice }}.00</span>
           </li>
           <li class="cart-list-con5">
-            <a
-              href="javascript:void(0)"
-              class="mins"
-              @click="handler('minus', -1, cart)"
-              >-</a
-            >
-            <input
-              autocomplete="off"
-              type="text"
-              :value="cart.skuNum"
-              @change="handler('change', $event.target.value, cart)"
-              minnum="1"
-              class="itxt"
-            />
-            <a
-              href="javascript:void(0)"
-              class="plus"
-              @click="handler('add', 1, cart)"
-              >+</a
-            >
+            <a href="javascript:void(0)" class="mins" @click="handler('minus', -1, cart)">-</a>
+            <input autocomplete="off" type="text" :value="cart.skuNum"
+              @change="handler('change', $event.target.value, cart)" minnum="1" class="itxt" />
+            <a href="javascript:void(0)" class="plus" @click="handler('add', 1, cart)">+</a>
             <!-- 本来想用element-ui的，不过搞不定 -->
             <!-- <el-input-number v-model="cart.skuNum" @change="handleChange($event.target.value*1,cart)" :min="1" label="描述文字" size="mini"></el-input-number> -->
           </li>
@@ -59,8 +39,8 @@
             <span class="sum">{{ cart.skuNum * cart.skuPrice }}</span>
           </li>
           <li class="cart-list-con7">
-            <a class="sindelet" @click="deleteCartById(cart)">删除</a>
-            <br />
+            <a href="javascript:;" class="sindelet" @click="deleteCartById(cart)">删除</a>
+            <br /><br />
             <a href="#none">移到收藏</a>
           </li>
         </ul>
@@ -68,18 +48,20 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" :checked="isAllCheck" />
+        <!-- 商品全选绑定回调@change="updateAllCartChecked"，实现全选功能 -->
+        <!-- &&cartInfoList.length>0的意思是当购物车中没有商品时，取消全选按钮的勾选状态 -->
+        <input class="chooseAll" type="checkbox" :checked="isAllCheck && cartInfoList.length > 0"
+          @change="updateAllCartChecked" />
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a @click="deldeteAllCheckedCart">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
       <div class="money-box">
         <div class="chosed">
-          已选择 <span>{{ totalGoods }}</span
-          >件商品
+          已选择 <span>{{ totalGoods }}</span>件商品
         </div>
         <div class="sumprice">
           <em>总价（不含运费） ：</em>
@@ -133,7 +115,7 @@ export default {
         });
         //商品数量修改成功后再次获取服务器数据
         this.getDate();
-      } catch (error) {}
+      } catch (error) { }
     }, 800),
     // 删除商品操作
     async deleteCartById(cart) {
@@ -143,6 +125,17 @@ export default {
         this.getDate();
       } catch (error) {
         alert(error.message);
+      }
+    },
+    // 删除全部选中的商品
+    // 这个回调我们没办法获取到一些有用数据
+    async deldeteAllCheckedCart() {
+      try {
+        // 派发一个action，到仓库批量删除
+        await this.$store.dispatch('deleteAllCheckedCart');
+        this.getDate();
+      } catch (error) {
+        alert(error.message)
       }
     },
     // 修改某个商品的勾选状态
@@ -158,7 +151,19 @@ export default {
         });
         this.getDate();
       } catch (error) {
-        alert(error.message)
+        alert(error.message);
+      }
+    },
+    // 修改所有商品的勾选状态
+    async updateAllCartChecked(event) {
+      try {
+        // 获取这个全选按钮现在是选中还是没选中？
+        let isChecked = event.target.checked ? "1" : "0";
+        // 派发action，把全选按钮现在的状态也带过去，在仓库里根据这个状态修改所有商品的状态
+        await this.$store.dispatch("getAllCartChecked", isChecked);
+        this.getDate();
+      } catch (error) {
+        alert(error.message);
       }
     },
   },
@@ -218,7 +223,7 @@ export default {
       padding: 10px;
       overflow: hidden;
 
-      & > div {
+      &>div {
         float: left;
       }
 
@@ -265,7 +270,7 @@ export default {
         border-bottom: 1px solid #ddd;
         overflow: hidden;
 
-        & > li {
+        &>li {
           float: left;
         }
 
